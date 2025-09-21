@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="EN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>X-Trance CDN - Global Smart CDN & Security</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+  <meta name="description" content="Global smart CDN acceleration with AI unlock, streaming, gaming, privacy & security. Multi-route redundancy, TLS1.3/QUIC, DDoS/WAF.">
+  <style>
+    :root{
+      --maxw: 1140px; --gap-lg: 30px; --gap-md: 20px; --radius: 18px;
+      --surface-1: rgba(255,255,255,0.10); --surface-2: rgba(255,255,255,0.08);
+      --ink-1:#f5f5f5; --ink-2:#eaf8ff; --ink-3:#bdefff;
+      --brand-a:#00d4ff; --brand-b:#00ffa2;
+      --bg: linear-gradient(135deg,#0f2027 0%, #203a43 45%, #2c5364 100%);
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink-1);font-family:'Segoe UI',Tahoma,Verdana,sans-serif;}
+    body{min-height:100vh;display:flex;flex-direction:column;}
+    .gradient-bar{width:100%;height:6px;background:linear-gradient(90deg,var(--brand-a),#2c5364,#ff7e5f,var(--brand-a));background-size:200% 200%;animation:move 5s linear infinite;}
+    @keyframes move{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+    /* Page scaffold (footer nav only) */
+    .page{display:none}.page.active{display:block}
+    .wrap{width:100%;max-width:1140px;margin:0 auto;padding:36px 14px 96px 14px}
+    .title-xl{font-weight:900;text-align:center;margin:0 0 10px 0;font-size:2.15em;background:linear-gradient(90deg,var(--brand-a),var(--brand-b) 80%);color:transparent;-webkit-background-clip:text;background-clip:text}
+    .title-sub{font-weight:700;color:var(--brand-b);text-align:center;margin:10px 0 16px 0;font-size:1.14em;letter-spacing:.2px}
+    .lead{color:var(--ink-3);text-align:center;line-height:1.68;margin:12px auto 24px auto;font-size:1.04em;max-width:980px}
+    .cta{display:inline-block;padding:11px 28px;border:none;border-radius:24px;background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:#1e2a36;font-weight:800;cursor:pointer;box-shadow:0 4px 18px rgba(0,212,255,.16);transition:transform .2s,background .25s;margin:10px auto 22px auto}
+    .cta:hover{transform:translateY(-2px) scale(1.02);background:linear-gradient(90deg,var(--brand-b),var(--brand-a))}
+    .grid{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-lg)}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.grid{grid-template-columns:1fr}.title-xl{font-size:1.6em}}
+    .card{background:var(--surface-1);border-radius:var(--radius);padding:20px 16px;box-shadow:0 6px 20px rgba(0,0,0,.15);transition:.22s transform,.22s box-shadow;display:flex;flex-direction:column;min-height:190px;text-align:left}
+    .card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,212,255,.16)}
+    .icon{font-size:1.6em;color:var(--brand-b);margin-bottom:8px;filter:drop-shadow(0 2px 6px #00d4ff88)}
+    .tag{background:linear-gradient(90deg,var(--brand-b),var(--brand-a));color:#1e2a36;font-size:.9em;border-radius:12px;padding:2px 10px;font-weight:800;margin-bottom:8px;align-self:flex-start}
+    .card h3{color:var(--brand-a);font-size:1.07em;font-weight:800;margin:2px 0 8px 0}
+    .card p{color:var(--ink-2);margin:0;line-height:1.58}
+    .metrics{width:100%;display:grid;grid-template-columns:repeat(6,1fr);gap:var(--gap-md);margin:6px 0 18px 0}
+    @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:640px){.metrics{grid-template-columns:repeat(2,1fr)}}
+    .metric{background:rgba(255,255,255,.09);border:1px solid rgba(0,212,255,.22);border-radius:12px;padding:12px;text-align:center}
+    .metric .v{color:var(--brand-b);font-weight:900;font-size:1.05em}
+    .metric .k{color:#dff8ff;font-size:.92em}
+    .nodes-box{width:100%;background:var(--surface-2);border-radius:var(--radius);padding:16px 12px;box-shadow:0 2px 18px rgba(0,212,255,.09);margin-top:6px}
+    .nodes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-md)}
+    @media(max-width:1000px){.nodes-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.nodes-grid{grid-template-columns:1fr}}
+    .node{background:rgba(255,255,255,.12);border:1px solid rgba(0,212,255,.18);border-radius:14px;padding:14px;display:flex;flex-direction:column;min-height:170px;transition:border-color .2s,box-shadow .2s}
+    .node:hover{border-color:rgba(0,212,255,.6);box-shadow:0 6px 24px rgba(0,212,255,.16)}
+    .node .ttl{color:var(--brand-b);font-weight:900;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+    .node ul{list-style:none;padding:0;margin:2px 0 0 0;color:#e3faff;columns:2;column-gap:18px}
+    .node li{margin:2px 0;break-inside:avoid}
+    .node .tip{margin-top:auto;color:#a0eaff;font-size:.94em}
+    .map{width:100%;height:160px;margin:12px auto 0;border-radius:12px;opacity:.35;background:
+      url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') center/contain no-repeat,
+      radial-gradient(1000px 300px at 50% 0, rgba(0,212,255,.10), transparent)}
+    .price-card{background:rgba(255,255,255,.09);border-radius:18px;padding:20px 14px;box-shadow:0 2px 10px rgba(0,212,255,.14);color:var(--ink-2)}
+    .price-card .tag{margin-bottom:8px}.price-card h3{color:var(--brand-a);margin:0 0 8px 0;font-size:1.06em}
+    .price{color:var(--brand-b);font-weight:900;margin-bottom:8px}
+    .pay-icons{margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+    .pay-icons .i{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.10);border:1px solid rgba(0,212,255,.22);padding:8px 12px;border-radius:10px;color:#cfefff}
+    .pay-icons .i i{color:var(--brand-a)}
+    .doc-links{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .doc-links a{color:var(--brand-a);text-decoration:none;padding:6px 10px;border-radius:6px;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.25)}
+    .doc-links a:hover{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:#203a43}
+    .user{width:100%;max-width:520px;margin:6px auto 0;display:flex;flex-direction:column;align-items:center}
+    .tabs{display:flex;gap:12px;margin:12px 0 18px 0}
+    .tab{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:#203a43;border:none;border-radius:18px;padding:8px 20px;font-weight:800;cursor:pointer}
+    .tab.active{background:linear-gradient(90deg,var(--brand-b),var(--brand-a))}
+    .uf{width:100%;display:none;flex-direction:column;align-items:center}
+    .uf input,.uf textarea{width:85%;padding:9px 12px;border:none;border-radius:8px;background:#203a43;color:#e6faff;margin:0 0 10px 0}
+    .uf button{width:90%}.ut{margin-top:8px;color:#a0eaff;text-align:center}
+    #chat-bubble{position:fixed;right:26px;bottom:34px;background:linear-gradient(135deg,var(--brand-a),var(--brand-b));color:#203a43;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 16px rgba(0,212,255,.22);cursor:pointer;z-index:40}
+    #chat{position:fixed;right:24px;bottom:96px;width:330px;max-width:92vw;background:#203a43;border-radius:18px;box-shadow:0 6px 20px rgba(0,0,0,.22);display:none;z-index:45;flex-direction:column;overflow:hidden}
+    #chd{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:#203a43;padding:10px 14px;font-weight:800}
+    #msgs{padding:10px;min-height:110px;max-height:240px;overflow-y:auto;text-align:left;color:#e6faff}
+    #row{display:flex;border-top:1px solid #00d4ff33;padding:8px 10px}
+    #cin{flex:1;border:none;border-radius:8px;padding:7px;background:#2c5364;color:#e6faff}
+    #csend{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));border:none;border-radius:10px;color:#203a43;font-weight:800;margin-left:6px;padding:7px 12px;cursor:pointer}
+    #csend:hover{background:linear-gradient(90deg,var(--brand-b),var(--brand-a))}
+    #lang{position:fixed;right:26px;bottom:98px;transform:translateY(-72px);width:42px;height:42px;border-radius:50%;background:#203a43;border:2px solid var(--brand-a);display:flex;align-items:center;justify-content:center;color:var(--brand-a);font-size:1.1em;cursor:pointer;box-shadow:0 2px 10px rgba(0,212,255,.13);z-index:41}
+    #lang.active{background:linear-gradient(90deg,var(--brand-a),var(--brand-b));color:#203a43}
+    footer{position:fixed;left:0;bottom:0;width:100%;background:rgba(0,0,0,.13);border-top:1px solid #00d4ff33;padding:12px 6px 10px 6px;text-align:center;z-index:10}
+    .f-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:6px}
+    .f-links a{color:#a0eaff;text-decoration:none}
+    .f-links a:hover{color:var(--brand-b);text-decoration:underline}
+    .cr{color:#bbb;font-size:.94em}
+    html[data-lang="ZH"] body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Noto Sans SC','Segoe UI',Arial,sans-serif}
+    html[data-lang="ZH"] .title-sub{margin:12px 0 18px 0}
+    html[data-lang="ZH"] .lead,html[data-lang="ZH"] p,html[data-lang="ZH"] li{line-height:1.72}
+    html[data-lang="ZH"] .tag{font-size:.88em}
+  </style>
+</head>
+<body>
+  <div class="gradient-bar"></div>
+  <main>
+    <!-- Home -->
+    <section class="page active" id="home">
+      <div class="wrap">
+        <h1 class="title-xl" id="homeTitle">Global Smart Content Delivery & Security</h1>
+        <p class="title-sub" id="homeSub">AI unlock · Multi‑scene acceleration · PQC security · DDoS/CC protection</p>
+        <p class="lead" id="homeLead">
+          Accelerate websites, AI services, gaming, video, and live streaming worldwide with edge routing and enterprise‑grade protection.
+          Multi‑route redundancy · low latency · TLS1.3/HTTP3/QUIC · ChaCha20 · AI threat mitigation.
+        </p>
+        <button class="cta" id="homeCTA">Explore Products</button>
+        <div class="metrics" id="metrics"></div>
+        <div class="grid" id="homeGrid"></div>
+      </div>
+    </section>
+
+    <!-- Global Nodes -->
+    <section class="page" id="nodes">
+      <div class="wrap">
+        <h2 class="title-xl" id="nodesTitle">Global Node Distribution</h2>
+        <p class="title-sub" id="nodesSub">60+ core nodes · smart routing · low latency</p>
+        <div class="nodes-box">
+          <div class="nodes-grid" id="nodesGrid"></div>
+          <div class="map"></div>
+          <p class="lead" id="nodesSum">Global coverage across 5 continents. Automatic best‑path selection and nearby ingress maximize performance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="page" id="services">
+      <div class="wrap">
+        <h2 class="title-xl" id="svcTitle">Our Services</h2>
+        <p class="title-sub" id="svcSub">Edge acceleration · AI/Streaming/Gaming · Enterprise security</p>
+        <div class="grid" id="svcGrid"></div>
+      </div>
+    </section>
+
+    <!-- Advantages / Capabilities -->
+    <section class="page" id="advantages">
+      <div class="wrap">
+        <h2 class="title-xl" id="advTitle">Advantages & CDN Capabilities</h2>
+        <p class="title-sub" id="advSub">Protocols · Caching · Media processing · Security · Traffic control</p>
+        <div class="grid" id="advGrid"></div>
+      </div>
+    </section>
+
+    <!-- Privacy & Security -->
+    <section class="page" id="privacy">
+      <div class="wrap">
+        <h2 class="title-xl" id="prvTitle">Privacy & Security</h2>
+        <p class="title-sub" id="prvSub">Zero‑log options · Data minimization · BYOK/KMS · Compliance & audit</p>
+        <p class="lead" id="prvLead">
+          We minimize data, encrypt everywhere, and let customers control retention and keys. Security is layered from edge to origin.
+        </p>
+        <div class="grid" id="prvGrid"></div>
+      </div>
+    </section>
+
+    <!-- Scenarios -->
+    <section class="page" id="scenarios">
+      <div class="wrap">
+        <h2 class="title-xl" id="sceTitle">Typical Scenarios</h2>
+        <p class="title-sub" id="sceSub">One platform for AI unlock, streaming, gaming, and enterprise workloads</p>
+        <div class="grid" id="sceGrid"></div>
+      </div>
+    </section>
+
+    <!-- Customer Cases -->
+    <section class="page" id="cases">
+      <div class="wrap">
+        <h2 class="title-xl" id="caseTitle">Customer Cases</h2>
+        <p class="title-sub" id="caseSub">Trusted by global teams across industries</p>
+        <div class="grid" id="caseGrid"></div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="page" id="products">
+      <div class="wrap">
+        <h2 class="title-xl" id="prodTitle">Products Center</h2>
+        <p class="title-sub" id="prodSub">Full scenarios · security acceleration · developer‑friendly</p>
+        <div class="grid" id="prodGrid"></div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="page" id="pricing">
+      <div class="wrap">
+        <h2 class="title-xl" id="priceTitle">Pricing</h2>
+        <p class="title-sub" id="priceSub">Flexible plans · easy upgrade · SLA guarantee</p>
+        <div class="grid" id="priceGrid"></div>
+        <div class="pay-icons" id="payIcons">
+          <span class="i"><i class="fab fa-cc-visa"></i> Visa</span>
+          <span class="i"><i class="fab fa-cc-mastercard"></i> MasterCard</span>
+          <span class="i"><i class="fab fa-cc-amex"></i> AmEx</span>
+          <span class="i"><i class="fab fa-cc-paypal"></i> PayPal</span>
+          <span class="i"><i class="fab fa-bitcoin"></i> Bitcoin</span>
+          <span class="i"><i class="fab fa-ethereum"></i> Ethereum</span>
+          <span class="i"><i class="fas fa-coins"></i> USDT (TRC20/ERC20)</span>
+          <span class="i"><i class="fas fa-bolt"></i> Lightning</span>
+          <span class="i"><i class="fab fa-alipay"></i> Alipay</span>
+          <span class="i"><i class="fab fa-weixin"></i> WeChat</span>
+          <span class="i"><i class="fas fa-wallet"></i> Apple/Google Pay</span>
+          <span class="i"><i class="fab fa-cc-stripe"></i> Stripe</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Docs -->
+    <section class="page" id="docs">
+      <div class="wrap">
+        <h2 class="title-xl" id="docsTitle">Docs Center</h2>
+        <p class="title-sub" id="docsSub">Developer integration · API reference · Scenario guide</p>
+        <div class="grid" id="docsGrid"></div>
+        <div class="doc-links" id="docsLinks"></div>
+      </div>
+    </section>
+
+    <!-- User -->
+    <section class="page" id="user">
+      <div class="wrap">
+        <h2 class="title-xl" id="userTitle">User Center</h2>
+        <p class="title-sub" id="userSub">Account · Login · Contact Support</p>
+        <div class="user">
+          <div class="tabs">
+            <button class="tab active" data-tab="login" id="tabLogin">Login</button>
+            <button class="tab" data-tab="register" id="tabRegister">Register</button>
+            <button class="tab" data-tab="contact" id="tabContact">Contact</button>
+          </div>
+          <form class="uf" data-tab="login" id="formLogin" style="display:flex">
+            <input id="loginUser" type="text" placeholder="Username / Email"/>
+            <input id="loginPwd" type="password" placeholder="Password"/>
+            <button class="cta" id="btnLogin" type="submit">Login</button>
+          </form>
+          <form class="uf" data-tab="register" id="formRegister">
+            <input id="regUser" type="text" placeholder="Username / Phone"/>
+            <input id="regPwd" type="password" placeholder="Set password"/>
+            <input id="regEmail" type="email" placeholder="Email address"/>
+            <button class="cta" id="btnRegister" type="submit">Register</button>
+          </form>
+          <form class="uf" data-tab="contact" id="formContact">
+            <input id="ctName" type="text" placeholder="Your name"/>
+            <input id="ctEmail" type="email" placeholder="Your email"/>
+            <textarea id="ctMsg" rows="3" placeholder="Your question or suggestion"></textarea>
+            <button class="cta" id="btnSend" type="submit">Send</button>
+          </form>
+          <div class="ut" id="userTip">Register now to get 10GB free trial. For support: <b>support@xtrance.top</b></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating language + chat -->
+  <div id="lang" title="切换到中文"><i class="fa fa-language"></i></div>
+  <div id="chat-bubble" title="Online Support"><i class="fas fa-comments"></i></div>
+  <div id="chat" style="display:none;flex-direction:column;">
+    <div id="chd">Support <span style="float:right;cursor:pointer" onclick="document.getElementById('chat').style.display='none'">×</span></div>
+    <div id="msgs"></div>
+    <div id="row">
+      <input id="cin" placeholder="Type your question..."/>
+      <button id="csend">Send</button>
+    </div>
+  </div>
+
+  <!-- Footer pagination -->
+  <footer>
+    <div class="f-links">
+      <a href="#" data-page="home" id="ftHome">Home</a>
+      <a href="#" data-page="nodes" id="ftNodes">Global Nodes</a>
+      <a href="#" data-page="services" id="ftServices">Services</a>
+      <a href="#" data-page="advantages" id="ftAdvantages">Advantages</a>
+      <a href="#" data-page="privacy" id="ftPrivacy">Privacy & Security</a>
+      <a href="#" data-page="scenarios" id="ftScenarios">Scenarios</a>
+      <a href="#" data-page="cases" id="ftCases">Cases</a>
+      <a href="#" data-page="products" id="ftProducts">Products</a>
+      <a href="#" data-page="pricing" id="ftPricing">Pricing</a>
+      <a href="#" data-page="docs" id="ftDocs">Docs</a>
+      <a href="#" data-page="user" id="ftUser">User</a>
+    </div>
+    <div class="cr" id="copyright">© 2025 X-Trance CDN. All Rights Reserved.</div>
+  </footer>
+
+  <script>
+    // Router
+    function showPage(key){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      const el=document.getElementById(key); if(el) el.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function bindRouter(){
+      document.querySelectorAll('.f-links a').forEach(a=>{
+        a.addEventListener('click',e=>{
+          const pg=a.getAttribute('data-page'); if(!pg) return;
+          e.preventDefault(); showPage(pg);
+        });
+      });
+      document.getElementById('homeCTA').addEventListener('click',()=>showPage('products'));
+    }
+    // Chat
+    function bindChat(){
+      const bubble=document.getElementById('chat-bubble');
+      const win=document.getElementById('chat');
+      const input=document.getElementById('cin');
+      const send=document.getElementById('csend');
+      const msgs=document.getElementById('msgs');
+      bubble.onclick=()=>{win.style.display=win.style.display==='flex'?'none':'flex'; if(win.style.display==='flex') input.focus();};
+      function add(t,c){const d=document.createElement('div'); d.textContent=t; if(c) d.style.color=c; d.style.margin='4px 0'; msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;}
+      send.onclick=()=>{
+        const m=(input.value||'').trim(); if(!m) return;
+        add((lang==='ZH'?'我：':'Me: ')+m);
+        setTimeout(()=>{
+          const priceHint=(lang==='ZH'?'请查看“产品价格”页面。':'Please check the Pricing page.');
+          const thanks=(lang==='ZH'?'感谢！我们已收到您的消息，会尽快回复。':'Thanks! We received your message and will reply soon.');
+          add((lang==='ZH'?'客服：':'Support: ')+(m.toLowerCase().includes(lang==='ZH'?'价格':'price')?priceHint:thanks),'#00ffa2');
+        },650);
+        input.value='';
+      };
+      input.addEventListener('keydown',e=>{if(e.key==='Enter')send.click();});
+    }
+    // User tabs
+    function bindUserTabs(){
+      const tabs=document.querySelectorAll('.tab');
+      const forms=document.querySelectorAll('.uf');
+      tabs.forEach(b=>{
+        b.addEventListener('click',()=>{
+          tabs.forEach(x=>x.classList.remove('active')); b.classList.add('active');
+          const t=b.dataset.tab; forms.forEach(f=>f.style.display=(f.dataset.tab===t)?'flex':'none');
+        });
+      });
+    }
+
+    // Data
+    const DATA={EN:{
+      nav:{home:"Home",nodes:"Global Nodes",services:"Services",advantages:"Advantages",privacy:"Privacy & Security",scenarios:"Scenarios",cases:"Cases",products:"Products",pricing:"Pricing",docs:"Docs",user:"User"},
+      home:{
+        title:"Global Smart Content Delivery & Security",
+        sub:"AI unlock · Multi‑scene acceleration · PQC security · DDoS/CC protection",
+        lead:"Accelerate websites, AI services, gaming, video, and live streaming with edge routing and enterprise‑grade protection. Multi‑route redundancy · low latency · TLS1.3/HTTP3/QUIC · ChaCha20 · AI threat mitigation.",
+        cta:"Explore Products",
+        metrics:[
+          {v:"99.99%+",k:"SLA"},{v:"< 30 ms",k:"P95 latency"},{v:"100+ Gbps",k:"Per‑POP egress"},
+          {v:"5×",k:"Route redundancy"},{v:"TLS1.3/QUIC",k:"Protocols"},{v:"< 1 s",k:"Cache warm hit"}
+        ],
+        cards:[
+          {icon:'fas fa-robot',tag:'AI Unlock',title:'ChatGPT/OpenAI Acceleration',desc:'Geo‑unblock with priority routes; tuned IP pools & resilient SNI routing.'},
+          {icon:'fas fa-film',tag:'Streaming',title:'Netflix/Disney+/YouTube',desc:'One‑click unlock with adaptive bitrate & anti‑jitter tuning.'},
+          {icon:'fas fa-gamepad',tag:'Gaming',title:'Cross‑region Game Boost',desc:'Dedicated lines; packet‑loss repair & low‑latency queues.'},
+          {icon:'fas fa-shield-alt',tag:'Security',title:'Multi‑layer Protection',desc:'DDoS/CC mitigation, WAF, zero‑trust with ACL.'},
+          {icon:'fas fa-tachometer-alt',tag:'Performance',title:'Ultra‑fast Delivery',desc:'Smart routing, static/dynamic split, tiered cache & prefetching.'},
+          {icon:'fas fa-globe-asia',tag:'China',title:'Overseas → China',desc:'Optimized backhaul to mainland resources with low jitter.'}
+        ]
+      },
+      nodes:{title:"Global Node Distribution",sub:"60+ core nodes · smart routing · low latency",
+        summary:"Coverage across 5 continents with nearby ingress. Automatic best‑path selection maximizes performance.",
+        regions:[
+          {icon:'fas fa-globe-asia',name:'Mainland China',cities:['Beijing','Shanghai','Guangzhou','Shenzhen','Chengdu','Hangzhou'],tip:'Optimized for gaming/streaming.'},
+          {icon:'fas fa-flag',name:'HK/MO/TW',cities:['Hong Kong','Macao','Taipei'],tip:'APAC hub.'},
+          {icon:'fas fa-globe-asia',name:'Asia',cities:['Singapore','Tokyo','Seoul','Mumbai','Bangkok','Kuala Lumpur'],tip:'Minimal latency ingress.'},
+          {icon:'fas fa-globe-americas',name:'Americas',cities:['Los Angeles','Silicon Valley','New York','Chicago','Toronto','São Paulo'],tip:'Premium routes.'},
+          {icon:'fas fa-globe-europe',name:'Europe',cities:['London','Frankfurt','Paris','Amsterdam','Madrid','Milan'],tip:'Stable throughput.'},
+          {icon:'fas fa-globe-africa',name:'Oceania/Africa',cities:['Sydney','Melbourne','Auckland','Johannesburg'],tip:'Reliable access.'}
+        ]
+      },
+      services:{title:"Our Services",sub:"Edge acceleration · AI/Streaming/Gaming · Enterprise security",
+        items:[
+          {icon:'fas fa-robot',tag:'AI',title:'AI Platforms Unlock',desc:'OpenAI/Midjourney/SD acceleration with resilient SNI & rotations.'},
+          {icon:'fas fa-cloud-upload-alt',tag:'CDN',title:'Static CDN',desc:'Edge caching with smart routing and millisecond TTFB.'},
+          {icon:'fas fa-video',tag:'Live/VOD',title:'Live & VOD Delivery',desc:'Low‑latency ingest, ABR ladder tuning.'},
+          {icon:'fas fa-film',tag:'Streaming',title:'Streaming Boost',desc:'4K/8K smooth playback with region tuning.'},
+          {icon:'fas fa-gamepad',tag:'Gaming',title:'Gaming Lines',desc:'UDP preference & packet‑loss concealment.'},
+          {icon:'fas fa-plane-arrival',tag:'China',title:'China Acceleration',desc:'Optimized routing with low jitter.'},
+          {icon:'fas fa-shield-virus',tag:'DDoS/WAF',title:'DDoS/WAF',desc:'AI detection, auto cleaning, ACL.'},
+          {icon:'fas fa-chart-line',tag:'Observability',title:'Realtime Monitoring',desc:'Metrics, logs, alerts and dashboards.'}
+        ]
+      },
+      advantages:{title:"Advantages & CDN Capabilities",sub:"Protocols · Caching · Media · Security · Traffic control",
+        caps:[
+          {icon:'fas fa-plug',title:'Protocols',desc:'HTTP/2, HTTP/3(QUIC), gRPC, WebSocket.'},
+          {icon:'fas fa-file-archive',title:'Compression',desc:'Brotli/Gzip auto compression.'},
+          {icon:'fas fa-layer-group',title:'Tiered Cache',desc:'Reduce origin load by 60%+ during spikes.'},
+          {icon:'fas fa-image',title:'Image/Media',desc:'Resize, WebP/AVIF, thumbnails.'},
+          {icon:'fas fa-shield-alt',title:'TLS & Ciphers',desc:'TLS1.3, ChaCha20‑Poly1305, PFS.'},
+          {icon:'fas fa-traffic-light',title:'Traffic Control',desc:'Per‑path limits, surge queues, reputation.'},
+          {icon:'fas fa-database',title:'Multi‑Origin',desc:'Health checks, failover, weighted LB.'},
+          {icon:'fas fa-code',title:'DevOps',desc:'REST API, SDKs, IaC, versioned rules.'}
+        ]
+      },
+      privacy:{title:"Privacy & Security",sub:"Zero‑log · Data minimization · BYOK/KMS · Compliance",
+        lead:"Minimize data, encrypt everywhere, customer control on retention and keys.",
+        items:[
+          {icon:'fas fa-user-secret',tag:'Zero‑Log',title:'Zero‑Log Mode',desc:'Optional redaction & anonymization; privacy‑preserving analytics.'},
+          {icon:'fas fa-database',tag:'Retention',title:'Data Minimization',desc:'Granular retention; purge APIs; metadata‑only in restricted regions.'},
+          {icon:'fas fa-key',tag:'BYOK/KMS',title:'Customer‑Managed Keys',desc:'Integrate with cloud KMS; rotation; per‑tenant domains.'},
+          {icon:'fas fa-user-shield',tag:'Access',title:'SSO & RBAC',desc:'SAML/OIDC SSO, MFA/Passkeys, scoped tokens.'},
+          {icon:'fas fa-shield-alt',tag:'Transport',title:'Transport Security',desc:'TLS1.3, HSTS, OCSP stapling, PFS.'},
+          {icon:'fas fa-clipboard-check',tag:'Compliance',title:'Compliance & Audit',desc:'GDPR‑ready, immutable audit logs, SIEM export.'},
+          {icon:'fas fa-map-marker-alt',tag:'Residency',title:'Data Residency',desc:'Pin logs/metrics to EU/US/APAC.'},
+          {icon:'fas fa-user-lock',tag:'PII',title:'PII Masking/DLP',desc:'Pattern‑based scrubbing and tokenization at edge.'},
+          {icon:'fas fa-bug',tag:'Disclosure',title:'Vuln Disclosure',desc:'/.well-known/security.txt, bug bounty, 24/7 contact.'}
+        ]
+      },
+      scenarios:{title:"Typical Scenarios",sub:"One platform for all workloads",
+        items:[
+          {icon:'fas fa-robot',tag:'AI Unlock',title:'ChatGPT/OpenAI Access',desc:'Latency‑aware pools with robust fallbacks.'},
+          {icon:'fas fa-tv',tag:'Streaming',title:'OTT/VoD/Live',desc:'Prefetch + tiered cache minimize rebuffering.'},
+          {icon:'fas fa-gamepad',tag:'Gaming',title:'Cross‑region Multiplayer',desc:'UDP preference and loss concealment.'},
+          {icon:'fas fa-plane-arrival',tag:'China',title:'Overseas → China',desc:'Backhaul + DNS optimization for stability.'},
+          {icon:'fas fa-building',tag:'Enterprise',title:'B2B Portals & APIs',desc:'mTLS/ACL, WAF, audit logging.'},
+          {icon:'fas fa-store',tag:'E‑commerce',title:'Global Storefronts',desc:'Edge cache + image optimization for FCP/LCP.'}
+        ]
+      },
+      cases:{title:"Customer Cases",sub:"Proven in production",
+        items:[
+          {icon:'fas fa-brain',tag:'AI SaaS',title:'AI Assistant Startup',desc:'Availability 72%→98%; timeouts −84%.'},
+          {icon:'fas fa-gamepad',tag:'Game',title:'Global Publisher',desc:'Disconnects −65%; P95 −28%.'},
+          {icon:'fas fa-tv',tag:'Media',title:'OTT Platform',desc:'Cache hit +32%; rebuffer 0.3%.'},
+          {icon:'fas fa-chart-line',tag:'E‑commerce',title:'Cross‑border Shop',desc:'LCP +38%, conversion +11%.'},
+          {icon:'fas fa-university',tag:'Finance',title:'Banking Portal',desc:'WAF + mTLS; zero downtime.'},
+          {icon:'fas fa-users',tag:'Community',title:'Overseas Org',desc:'Stable CN video/news access.'}
+        ]
+      },
+      products:{title:"Products Center",sub:"Full scenarios · secure · dev‑friendly",
+        items:[
+          {icon:'fas fa-globe-asia',tag:'CDN',title:'Global CDN',desc:'LB + scheduling for web/image/API/video.'},
+          {icon:'fas fa-robot',tag:'AI',title:'AI Unlock Suite',desc:'Resilient access with tuned rotations.'},
+          {icon:'fas fa-plane-arrival',tag:'China',title:'China Acceleration',desc:'Low‑jitter direct access.'},
+          {icon:'fas fa-tv',tag:'Streaming',title:'Streaming Unlock',desc:'Unlock Netflix/Disney+/Bilibili/Tencent.'},
+          {icon:'fas fa-shield-alt',tag:'Security',title:'DDoS/WAF',desc:'AI detection + ACL.'},
+          {icon:'fas fa-mobile-alt',tag:'Mobile',title:'Mobile Boost',desc:'Adaptive compression & network tuning.'},
+          {icon:'fas fa-database',tag:'Redundancy',title:'Backup & DR',desc:'Multi‑copy + auto switchover.'},
+          {icon:'fas fa-code',tag:'API/SDK',title:'API & SDK',desc:'REST, SDKs, automated policies.'}
+        ]
+      },
+      pricing:{title:"Pricing",sub:"Flexible plans · easy upgrade · SLA guarantee",
+        items:[
+          {tier:'Free Trial',spec:'10GB · Global edge',price:'$0',desc:'Try core features with limited bandwidth.'},
+          {tier:'Starter',spec:'100GB · 10 nodes',price:'$4.99 / month',desc:'TLS + basic DDoS.'},
+          {tier:'Standard',spec:'500GB · 30 nodes',price:'$12.99 / month',desc:'PQC security + auto cleaning.'},
+          {tier:'Pro',spec:'1TB · 50+ nodes',price:'$23.99 / month',desc:'WAF + tiered cache + image opt.'},
+          {tier:'Business',spec:'3TB · 60+ nodes',price:'$59.00 / month',desc:'Custom rules, analytics export.'},
+          {tier:'Enterprise',spec:'Custom · Dedicated nodes',price:'Contact sales',desc:'SLA 99.99%, private POPs.'}
+        ]
+      },
+      docs:{title:"Docs Center",sub:"Developer integration · API reference · Scenario guide",
+        items:[
+          {icon:'fas fa-book',title:'Quick Start',desc:'Register, add domain/origin, get CNAME and update DNS.'},
+          {icon:'fas fa-code',title:'API & SDK',desc:'Auth, rate limit, best practices.'},
+          {icon:'fas fa-user-shield',title:'Privacy & Security',desc:'Zero‑Log, DLP, BYOK/KMS, SSO/MFA, audit.'},
+          {icon:'fas fa-network-wired',title:'Integration',desc:'Multi‑origin, failover, split, cache keys.'},
+          {icon:'fas fa-shield-alt',title:'Security & Compliance',desc:'PQC/AES/ChaCha20, WAF, ACL.'},
+          {icon:'fas fa-question-circle',title:'FAQ',desc:'Protocols, monitoring, dashboard.'}
+        ],
+        links:['API Docs','SDK Download','Developer Forum','Privacy Policy','Security.txt']
+      },
+      user:{title:"User Center",sub:"Account · Login · Contact Support",
+        tabs:{login:'Login',register:'Register',contact:'Contact'},
+        ph:{lu:'Username / Email',lp:'Password',ru:'Username / Phone',rp:'Set password',re:'Email address',cn:'Your name',ce:'Your email',cm:'Your question or suggestion'},
+        btn:{login:'Login',register:'Register',send:'Send'},
+        tip:'Register now to get 10GB free trial. For support: <b>support@xtrance.top</b>'
+      }
+    },
+    ZH:{
+      nav:{home:"首页",nodes:"全球节点分布",services:"服务",advantages:"优势/能力",privacy:"隐私与安全",scenarios:"典型场景",cases:"客户案例",products:"产品中心",pricing:"产品价格",docs:"文档中心",user:"用户中心"},
+      home:{title:"全球智能内容分发与安全加速平台",
+        sub:"AI解锁 · 多场景加速 · 抗量子安全 · DDoS/CC防护",
+        lead:"面向网站、AI服务、游戏、视频与直播的全球加速与企业级防护。多线路冗余 · 低延迟 · TLS1.3/HTTP3/QUIC · ChaCha20 · AI威胁缓解。",
+        cta:"进入产品中心",
+        metrics:[
+          {v:"99.99%+",k:"SLA可用性"},{v:"< 30 ms",k:"区域内P95时延"},{v:"100+ Gbps",k:"单POP出口能力"},
+          {v:"5×",k:"路由冗余"},{v:"TLS1.3/QUIC",k:"协议栈"},{v:"< 1 s",k:"缓存预热命中"}
+        ],
+        cards:[
+          {icon:'fas fa-robot',tag:'AI解锁',title:'ChatGPT/OpenAI加速',desc:'智能解锁 + 优选路由，IP池/SNI路由调优。'},
+          {icon:'fas fa-film',tag:'流媒体',title:'Netflix/Disney+/YouTube',desc:'一键解锁与加速，ABR自适应。'},
+          {icon:'fas fa-gamepad',tag:'游戏',title:'跨区游戏加速',desc:'专线、丢包修复与低延迟排队。'},
+          {icon:'fas fa-shield-alt',tag:'安全',title:'多层安全防护',desc:'DDoS/CC清洗，WAF，零信任访问。'},
+          {icon:'fas fa-tachometer-alt',tag:'性能',title:'极速分发',desc:'边缘智能选路，分层缓存与预取。'},
+          {icon:'fas fa-globe-asia',tag:'回国',title:'海外直连中国',desc:'优化跨境回程，稳定访问。'}
+        ]
+      },
+      nodes:{title:"全球节点分布",sub:"60+核心节点 · 智能路由 · 低时延",
+        summary:"覆盖五大洲，就近接入与最优路径自动选择。",
+        regions:[
+          {icon:'fas fa-globe-asia',name:'中国大陆',cities:['北京','上海','广州','深圳','成都','杭州'],tip:'直连优化。'},
+          {icon:'fas fa-flag',name:'港澳台',cities:['香港','澳门','台北'],tip:'亚太枢纽。'},
+          {icon:'fas fa-globe-asia',name:'亚洲',cities:['新加坡','东京','首尔','孟买','曼谷','吉隆坡'],tip:'就近接入。'},
+          {icon:'fas fa-globe-americas',name:'美洲',cities:['洛杉矶','硅谷','纽约','芝加哥','多伦多','圣保罗'],tip:'优选线路。'},
+          {icon:'fas fa-globe-europe',name:'欧洲',cities:['伦敦','法兰克福','巴黎','阿姆斯特丹','马德里','米兰'],tip:'稳定吞吐。'},
+          {icon:'fas fa-globe-africa',name:'大洋洲/非洲',cities:['悉尼','墨尔本','奥克兰','约翰内斯堡'],tip:'可靠接入。'}
+        ]
+      },
+      services:{title:"我们的服务",sub:"边缘加速 · AI/流媒体/游戏 · 企业级安全",
+        items:[
+          {icon:'fas fa-robot',tag:'AI',title:'AI平台解锁',desc:'OpenAI/Midjourney/SD 加速。'},
+          {icon:'fas fa-cloud-upload-alt',tag:'CDN',title:'静态CDN',desc:'智能缓存与毫秒级TTFB。'},
+          {icon:'fas fa-video',tag:'直播/点播',title:'视频分发',desc:'低延迟推流，ABR优化。'},
+          {icon:'fas fa-film',tag:'流媒体',title:'解锁加速',desc:'4K/8K 流畅播放。'},
+          {icon:'fas fa-gamepad',tag:'游戏',title:'游戏专线',desc:'UDP优先、丢包隐藏。'},
+          {icon:'fas fa-plane-arrival',tag:'回国',title:'回国加速',desc:'直连大陆资源。'},
+          {icon:'fas fa-shield-virus',tag:'DDoS/WAF',title:'DDoS/WAF',desc:'AI检测、自动清洗。'},
+          {icon:'fas fa-chart-line',tag:'可观测性',title:'实时监控',desc:'指标、日志、告警。'}
+        ]
+      },
+      advantages:{title:"优势与CDN能力",sub:"协议 · 缓存 · 媒体 · 安全 · 管控",
+        caps:[
+          {icon:'fas fa-plug',title:'协议支持',desc:'HTTP/2、HTTP/3、gRPC、WebSocket。'},
+          {icon:'fas fa-file-archive',title:'压缩优化',desc:'Brotli/Gzip 智能压缩。'},
+          {icon:'fas fa-layer-group',title:'分层缓存',desc:'高峰回源压降 60%+。'},
+          {icon:'fas fa-image',title:'媒体处理',desc:'裁剪、WebP/AVIF、缩略图。'},
+          {icon:'fas fa-shield-alt',title:'TLS与套件',desc:'TLS1.3、ChaCha20‑Poly1305。'},
+          {icon:'fas fa-traffic-light',title:'流量管控',desc:'限流、拥塞队列、信誉。'},
+          {icon:'fas fa-database',title:'多源站',desc:'健康检查、故障切换。'},
+          {icon:'fas fa-code',title:'工程化',desc:'REST API、SDK、规则版本。'}
+        ]
+      },
+      privacy:{title:"隐私与安全",sub:"零日志 · 数据最小化 · BYOK/KMS · 合规",
+        lead:"尽量减少数据采集，端到端加密，客户可控保留与密钥。",
+        items:[
+          {icon:'fas fa-user-secret',tag:'零日志',title:'Zero‑Log 模式',desc:'字段脱敏与匿名化；隐私友好分析。'},
+          {icon:'fas fa-database',tag:'保留',title:'数据最小化',desc:'精细保留；清除 API；受限区域仅保留元数据。'},
+          {icon:'fas fa-key',tag:'BYOK/KMS',title:'自管密钥',desc:'对接云 KMS；轮换；租户域隔离。'},
+          {icon:'fas fa-user-shield',tag:'访问',title:'SSO 与 RBAC',desc:'SAML/OIDC，MFA/Passkeys，范围令牌。'},
+          {icon:'fas fa-shield-alt',tag:'传输',title:'传输安全',desc:'TLS1.3、HSTS、OCSP、PFS。'},
+          {icon:'fas fa-clipboard-check',tag:'合规',title:'合规与审计',desc:'GDPR、不可变审计日志、SIEM 导出。'},
+          {icon:'fas fa-map-marker-alt',tag:'驻留',title:'数据驻留',desc:'EU/US/APAC 区域驻留。'},
+          {icon:'fas fa-user-lock',tag:'PII',title:'PII 脱敏/DLP',desc:'边缘模式清洗与令牌化。'},
+          {icon:'fas fa-bug',tag:'披露',title:'漏洞披露',desc:'/.well-known/security.txt，漏洞奖励，7×24 联系。'}
+        ]
+      },
+      scenarios:{title:"典型应用场景",sub:"一站式覆盖关键业务",
+        items:[
+          {icon:'fas fa-robot',tag:'AI解锁',title:'ChatGPT/OpenAI 访问',desc:'时延感知池与回退。'},
+          {icon:'fas fa-tv',tag:'流媒体',title:'OTT/点播/直播',desc:'预取 + 分层缓存。'},
+          {icon:'fas fa-gamepad',tag:'游戏',title:'跨区联机',desc:'UDP 优先、丢包隐藏。'},
+          {icon:'fas fa-plane-arrival',tag:'回国',title:'海外→中国',desc:'回程与 DNS 优化。'},
+          {icon:'fas fa-building',tag:'企业',title:'B2B 门户/API',desc:'mTLS/ACL、WAF、审计。'},
+          {icon:'fas fa-store',tag:'电商',title:'全球店铺',desc:'边缘缓存 + 图片优化。'}
+        ]
+      },
+      cases:{title:"客户案例",sub:"经生产验证",
+        items:[
+          {icon:'fas fa-brain',tag:'AI SaaS',title:'AI 助手初创',desc:'可用性 72%→98%；超时 −84%。'},
+          {icon:'fas fa-gamepad',tag:'游戏',title:'全球发行商',desc:'掉线 −65%；P95 −28%。'},
+          {icon:'fas fa-tv',tag:'媒体',title:'OTT 平台',desc:'命中 +32%；重缓冲 0.3%。'},
+          {icon:'fas fa-chart-line',tag:'电商',title:'跨境店铺',desc:'LCP +38%，转化 +11%。'},
+          {icon:'fas fa-university',tag:'金融',title:'银行门户',desc:'WAF + mTLS；零中断。'},
+          {icon:'fas fa-users',tag:'社区',title:'海外组织',desc:'稳定访问国内视频/资讯。'}
+        ]
+      },
+      products:{title:"产品中心",sub:"全场景 · 安全 · 友好",
+        items:[
+          {icon:'fas fa-globe-asia',tag:'CDN',title:'全球 CDN',desc:'调度与分发。'},
+          {icon:'fas fa-robot',tag:'AI',title:'AI 解锁套件',desc:'轮换与回退。'},
+          {icon:'fas fa-plane-arrival',tag:'回国',title:'回国加速',desc:'低抖动直连。'},
+          {icon:'fas fa-tv',tag:'流媒体',title:'流媒体解锁',desc:'解锁主流平台。'},
+          {icon:'fas fa-shield-alt',tag:'安全',title:'DDoS/WAF',desc:'AI 检测 + 访问控制。'},
+          {icon:'fas fa-mobile-alt',tag:'移动',title:'移动端加速',desc:'压缩与链路优化。'},
+          {icon:'fas fa-database',tag:'冗余',title:'备份容灾',desc:'自动切换。'},
+          {icon:'fas fa-code',tag:'API/SDK',title:'API 与 SDK',desc:'REST、SDK、策略。'}
+        ]
+      },
+      pricing:{title:"产品价格",sub:"灵活套餐 · 升级便捷 · SLA保障",
+        items:[
+          {tier:'免费试用',spec:'10GB · 全球节点',price:'$0',desc:'核心功能体验。'},
+          {tier:'入门版',spec:'100GB · 10节点',price:'$4.99 / 月',desc:'TLS + 基础DDoS。'},
+          {tier:'标准版',spec:'500GB · 30节点',price:'$12.99 / 月',desc:'PQC + 自动清洗。'},
+          {tier:'高级版',spec:'1TB · 50+节点',price:'$23.99 / 月',desc:'WAF + 分层缓存 + 图片优化。'},
+          {tier:'商务版',spec:'3TB · 60+节点',price:'$59.00 / 月',desc:'自定义规则与导出。'},
+          {tier:'企业版',spec:'自定义 · 专属节点',price:'联系销售',desc:'SLA 99.99%，私有 POP。'}
+        ]
+      },
+      docs:{title:"文档中心",sub:"开发者集成 · API 参考 · 场景指南",
+        items:[
+          {icon:'fas fa-book',title:'快速入门',desc:'注册、添加域名/源站、配置 DNS。'},
+          {icon:'fas fa-code',title:'API 与 SDK',desc:'鉴权、限流、最佳实践。'},
+          {icon:'fas fa-user-shield',title:'隐私与安全',desc:'Zero‑Log、DLP、BYOK/KMS、SSO/MFA、审计。'},
+          {icon:'fas fa-network-wired',title:'接入与回源',desc:'多源站、故障切换、动静分离。'},
+          {icon:'fas fa-shield-alt',title:'安全与合规',desc:'PQC/AES/ChaCha20、WAF、ACL。'},
+          {icon:'fas fa-question-circle',title:'常见问题',desc:'协议、监控与控制台。'}
+        ],
+        links:['API 文档','SDK 下载','开发者社区','隐私政策','Security.txt']
+      },
+      user:{title:"用户中心",sub:"账号 · 登录 · 联系客服",
+        tabs:{login:'登录',register:'注册',contact:'联系我们'},
+        ph:{lu:'用户名 / 邮箱',lp:'密码',ru:'用户名 / 手机号',rp:'设置密码',re:'邮箱地址',cn:'姓名',ce:'邮箱',cm:'您的问题或建议'},
+        btn:{login:'登录',register:'注册',send:'发送'},
+        tip:'注册即享 10GB 免费试用。技术支持：<b>support@xtrance.top</b>'
+      }
+    }};
+    // Render helpers
+    function cardHTML(it){ return `<div class="card">${it.icon?`<div class="icon"><i class="${it.icon}"></i></div>`:''}${it.tag?`<div class="tag">${it.tag}</div>`:''}<h3>${it.title}</h3><p>${it.desc}</p></div>`; }
+
+    function renderHome(){ const d=DATA[lang].home;
+      homeTitle.innerHTML=d.title; homeSub.innerHTML=d.sub; homeLead.innerHTML=d.lead; homeCTA.innerText=d.cta;
+      metrics.innerHTML=d.metrics.map(m=>`<div class="metric"><div class="v">${m.v}</div><div class="k">${m.k}</div></div>`).join('');
+      homeGrid.innerHTML=d.cards.map(cardHTML).join('');
+    }
+    function renderNodes(){ const d=DATA[lang].nodes;
+      nodesTitle.innerHTML=d.title; nodesSub.innerHTML=d.sub; nodesSum.innerHTML=d.summary;
+      nodesGrid.innerHTML=d.regions.map(r=>`<div class="node"><div class="ttl"><i class="${r.icon}"></i>${r.name}</div><ul>${r.cities.map(c=>`<li>${c}</li>`).join('')}</ul><div class="tip">${r.tip}</div></div>`).join('');
+    }
+    function renderServices(){ const d=DATA[lang].services; svcTitle.innerHTML=d.title; svcSub.innerHTML=d.sub; svcGrid.innerHTML=d.items.map(cardHTML).join(''); }
+    function renderAdvantages(){ const d=DATA[lang].advantages; advTitle.innerHTML=d.title; advSub.innerHTML=d.sub; advGrid.innerHTML=d.caps.map(cardHTML).join(''); }
+    function renderPrivacy(){ const d=DATA[lang].privacy; prvTitle.innerHTML=d.title; prvSub.innerHTML=d.sub; prvLead.innerHTML=d.lead; prvGrid.innerHTML=d.items.map(cardHTML).join(''); }
+    function renderScenarios(){ const d=DATA[lang].scenarios; sceTitle.innerHTML=d.title; sceSub.innerHTML=d.sub; sceGrid.innerHTML=d.items.map(cardHTML).join(''); }
+    function renderCases(){ const d=DATA[lang].cases; caseTitle.innerHTML=d.title; caseSub.innerHTML=d.sub; caseGrid.innerHTML=d.items.map(cardHTML).join(''); }
+    function renderProducts(){ const d=DATA[lang].products; prodTitle.innerHTML=d.title; prodSub.innerHTML=d.sub; prodGrid.innerHTML=d.items.map(cardHTML).join(''); }
+    function renderPricing(){ const d=DATA[lang].pricing; priceTitle.innerHTML=d.title; priceSub.innerHTML=d.sub;
+      priceGrid.innerHTML=d.items.map(p=>`<div class="price-card"><div class="tag">${p.tier}</div><h3>${p.spec}</h3><div class="price">${p.price}</div><p>${p.desc}</p></div>`).join('');
+    }
+    function renderDocs(){ const d=DATA[lang].docs; docsTitle.innerHTML=d.title; docsSub.innerHTML=d.sub; docsGrid.innerHTML=d.items.map(cardHTML).join(''); docsLinks.innerHTML=d.links.map(t=>`<a href="#">${t}</a>`).join(''); }
+    function renderUser(){ const d=DATA[lang].user; userTitle.innerHTML=d.title; userSub.innerHTML=d.sub;
+      tabLogin.innerText=d.tabs.login; tabRegister.innerText=d.tabs.register; tabContact.innerText=d.tabs.contact;
+      loginUser.placeholder=d.ph.lu; loginPwd.placeholder=d.ph.lp; btnLogin.innerText=d.btn.login;
+      regUser.placeholder=d.ph.ru; regPwd.placeholder=d.ph.rp; regEmail.placeholder=d.ph.re; btnRegister.innerText=d.btn.register;
+      ctName.placeholder=d.ph.cn; ctEmail.placeholder=d.ph.ce; ctMsg.placeholder=d.ph.cm; btnSend.innerText=d.btn.send;
+      userTip.innerHTML=d.tip;
+    }
+
+    // i18n
+    let lang="EN";
+    function setLang(newLang){
+      lang=newLang; document.documentElement.setAttribute('data-lang',newLang);
+      document.documentElement.lang=(newLang==='ZH'?'zh-CN':'en');
+      const nv=DATA[newLang].nav;
+      ftHome.innerText=nv.home; ftNodes.innerText=nv.nodes; ftServices.innerText=nv.services; ftAdvantages.innerText=nv.advantages; ftPrivacy.innerText=nv.privacy;
+      ftScenarios.innerText=nv.scenarios; ftCases.innerText=nv.cases; ftProducts.innerText=nv.products; ftPricing.innerText=nv.pricing; ftDocs.innerText=nv.docs; ftUser.innerText=nv.user;
+      langBtn.title=(newLang==='EN'?'切换到中文':'Switch to English'); if(newLang==='ZH'){langBtn.classList.add('active')}else{langBtn.classList.remove('active')}
+      renderHome(); renderNodes(); renderServices(); renderAdvantages(); renderPrivacy(); renderScenarios(); renderCases(); renderProducts(); renderPricing(); renderDocs(); renderUser();
+      copyright.innerText="© 2025 X-Trance CDN. All Rights Reserved.";
+    }
+
+    // Boot
+    const langBtn=document.getElementById('lang');
+    document.addEventListener('DOMContentLoaded', ()=>{
+      bindRouter(); bindChat(); bindUserTabs();
+      setLang("EN"); // default English
+      langBtn.onclick=()=>setLang(lang==='EN'?'ZH':'EN');
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(()=>{});
+      }
+    });
+  </script>
+</body>
+</html>
