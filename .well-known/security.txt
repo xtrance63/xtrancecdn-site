@@ -1,0 +1,7 @@
+Contact: mailto:security@xtrance.top
+Contact: https://xtrance.top/support/security
+Preferred-Languages: en, zh
+Policy: https://xtrance.top/privacy-policy
+Encryption: https://keys.openpgp.org/vks/v1/by-fingerprint/REPLACE_WITH_YOUR_FPR
+Acknowledgments: https://xtrance.top/security/hall-of-fame
+Hiring: https://xtrance.top/careers
