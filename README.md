@@ -23,10 +23,6 @@ Create these records at your DNS provider:
   - Option B (CNAME flattening/ALIAS): CNAME/ALIAS `xtrance63.github.io`
 - `www.xtrance.top` → CNAME to `xtrance.top`
 - `assets.xtrance.top` → CNAME to `xtrance.top` (optional, can serve as SNI-capable static domain)
-- `g9929.xtrance.top` → A `154.64.237.147` (DNS only / no proxy)
-- `g4387.xtrance.top` → A `23.184.200.50` (DNS only / no proxy)
-
-> Keep `g9929`/`g4387` as DNS-only (no CDN proxy) to avoid interfering with Reality/gRPC/xhttp.
 
 ## Local preview
 Serve with a static server so the Service Worker can register:
