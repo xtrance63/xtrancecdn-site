@@ -1,0 +1,27 @@
+/* Background canvas sits behind everything */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Parallax color blobs */
+.parallax-layer {
+  position: fixed;
+  pointer-events: none;
+  inset: -10vmax; /* extend beyond viewport to hide edges while translating */
+  filter: blur(40px) saturate(120%);
+  opacity: 0.25;
+  z-index: -1; /* behind content */
+}
+.parallax-layer.layer-1 { background: radial-gradient(35vmax 35vmax at 30% 30%, #7aa2f7 0%, rgba(122,162,247,0) 60%); }
+.parallax-layer.layer-2 { background: radial-gradient(40vmax 40vmax at 70% 40%, #bb9af7 0%, rgba(187,154,247,0) 60%); }
+.parallax-layer.layer-3 { background: radial-gradient(45vmax 45vmax at 40% 70%, #9ece6a 0%, rgba(158,206,106,0) 60%); }
+
+/* Reduce motion: keep static visuals */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer { opacity: 0.12; }
+}

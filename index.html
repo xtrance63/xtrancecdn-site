@@ -90,6 +90,14 @@
     html[data-lang="ZH"] .lead,html[data-lang="ZH"] p,html[data-lang="ZH"] li{line-height:1.72}
     html[data-lang="ZH"] .tag{font-size:.88em}
   </style>
+  <link rel="preload" href="/assets/js/effects.js" as="script" />
+  <link rel="stylesheet" href="/assets/css/effects.css" />
+  <script>
+    window.EFFECTS_CONFIG = {
+      enableBackground: true,
+      enableParallax: true
+    };
+  </script>
 </head>
 <body>
   <div class="gradient-bar"></div>
@@ -638,5 +646,7 @@
       }
     });
   </script>
+
+  <script src="/assets/js/effects.js" defer></script>
 </body>
 </html>
