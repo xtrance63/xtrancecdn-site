@@ -2,17 +2,19 @@
   const cfg = Object.assign({
     enableBackground: true,
     enableParallax: true,
+    ignoreReducedMotion: false, // NEW: allow forcing effects on
     particleCount: Math.min(80, Math.floor((window.innerWidth*window.innerHeight)/16000)),
-    particleColor: 'rgba(148, 163, 184, 0.5)', // slate-400
-    lineColor: 'rgba(148, 163, 184, 0.25)',
+    particleColor: 'rgba(148, 163, 184, 0.6)', // slightly brighter for dark bg
+    lineColor: 'rgba(148, 163, 184, 0.35)',
     maxSpeed: 0.3,
     linkDistance: 110,
   }, window.EFFECTS_CONFIG || {});
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const allowMotion = cfg.ignoreReducedMotion || !reduced;
 
   // Insert parallax layers
-  if (cfg.enableParallax && !reduced) {
+  if (cfg.enableParallax && allowMotion) {
     const layers = [1,2,3].map(n=>{
       const el = document.createElement('div');
       el.className = `parallax-layer layer-${n}`;
@@ -35,7 +37,7 @@
   }
 
   // Insert animated background canvas (particle network)
-  if (cfg.enableBackground && !reduced) {
+  if (cfg.enableBackground && allowMotion) {
     const c = document.createElement('canvas');
     c.id = 'bg-canvas';
     document.body.appendChild(c);
