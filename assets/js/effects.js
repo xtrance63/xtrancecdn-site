@@ -3,6 +3,7 @@
     enableBackground: true,
     enableParallax: true,
     ignoreReducedMotion: false, // NEW: allow forcing effects on
+    parallaxStrength: 1.5, // NEW: configurable parallax strength (default tuned for better visibility)
     particleCount: Math.min(80, Math.floor((window.innerWidth*window.innerHeight)/16000)),
     particleColor: 'rgba(148, 163, 184, 0.6)', // slightly brighter for dark bg
     lineColor: 'rgba(148, 163, 184, 0.35)',
@@ -13,16 +14,24 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const allowMotion = cfg.ignoreReducedMotion || !reduced;
 
+  // Create or reuse effects root container
+  let effectsRoot = document.getElementById('effects-root');
+  if (!effectsRoot) {
+    effectsRoot = document.createElement('div');
+    effectsRoot.id = 'effects-root';
+    document.body.appendChild(effectsRoot);
+  }
+
   // Insert parallax layers
   if (cfg.enableParallax && allowMotion) {
     const layers = [1,2,3].map(n=>{
       const el = document.createElement('div');
       el.className = `parallax-layer layer-${n}`;
-      document.body.appendChild(el);
+      effectsRoot.appendChild(el); // Append to effects root instead of body
       return el;
     });
 
-    const damp = [0.02, 0.04, 0.06];
+    const damp = [0.02 * cfg.parallaxStrength, 0.04 * cfg.parallaxStrength, 0.06 * cfg.parallaxStrength];
     let cx = window.innerWidth/2, cy = window.innerHeight/2;
     function onMove(e){
       const x = (e.touches? e.touches[0].clientX : (e.clientX ?? cx)) - cx;
@@ -40,7 +49,7 @@
   if (cfg.enableBackground && allowMotion) {
     const c = document.createElement('canvas');
     c.id = 'bg-canvas';
-    document.body.appendChild(c);
+    effectsRoot.appendChild(c); // Append to effects root instead of body
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const ctx = c.getContext('2d');
 
